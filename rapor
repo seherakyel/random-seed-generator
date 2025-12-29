@@ -1,0 +1,22 @@
+Proje Raporu: Xorshift32 RNG Analizi ve Kırılması
+
+1. Algoritma Yapısı
+Seçilen rastgele sayı üreteci, Xorshift32 algoritmasıdır. Bu yapı, matematiksel olarak $GF(2)$ cismi üzerinde lineer olan XOR ve Bitwise Shift (Kaydırma) işlemlerini kullanarak sayı üretir. Sistemin çalışması deterministiktir; yani aynı seed her zaman aynı sayı dizisini üretir .
+
+2. Tespit Edilen Güvenlik Zafiyetleri
+• Output Whitening Eksikliği: Kod incelendiğinde, iç durum değişkeni (state) herhangi bir karıştırma veya gizleme işlemine tabi tutulmadan doğrudan çıktı olarak verilmektedir (return x). Bu durum, saldırganın tek bir çıktı ile sistemin tüm iç yapısını ele geçirmesine neden olur .
+• Terslenebilir İşlemler (Reversibility): Algoritmada kullanılan sola (<<) ve sağa (>>) kaydırma işlemleri, XOR işlemi ile birleştiğinde matematiksel olarak tersine çevrilebilir. Bu işlemler kriptografik bir "tek yönlü fonksiyon" (trapdoor) oluşturmaz .
+• Lineerlik: Algoritma lineer bir yapıdadır. Bu, çıktıların bitleri arasında çözülebilir denklem sistemleri kurmayı mümkün kılar .
+
+3. Saldırı Senaryosu ve Kırma Yöntemi
+Bu RNG yapısını kırmak için Brute-Force (Deneme-Yanılma) gerekmez; cebirsel analiz yeterlidir.
+• Geleceği Tahmin Etme:
+Algoritma çıktıyı maskelemediği için, sistemden yakalanan herhangi bir $Output_n$ değeri, aslında o anki $State_n$ değeridir. Saldırgan, yakaladığı bu sayıyı kendi algoritmasına parametre olarak verip, gelecekte üretilecek $Output_{n+1}, Output_{n+2} \dots$ değerlerini %100 kesinlikle hesaplayabilir.
+• Seed (Başlangıç) Değerini Bulma:
+Hocanın verdiği bir sayıdan geriye giderek başlangıç seed değerini bulmak için "Tersine Mühendislik" uygulanır. Algoritmadaki işlemlerin tersi (Inverse Shift) sırasıyla uygulanarak seed elde edilir:
+1. Algoritma İleri Yön: (<< 13) $\rightarrow$ (>> 17) $\rightarrow$ (<< 5)
+2. Saldırı Geri Yön: (Inv << 5) $\rightarrow$ (Inv >> 17) $\rightarrow$ (Inv << 13)
+
+4. Sonuç
+Xorshift32, hızlı olması ve istatistiksel testleri geçmesi nedeniyle simülasyonlarda kullanılabilir ancak kriptografik olarak güvenli değildir. İç durumun (state) korunmaması ve işlemlerin terslenebilir olması nedeniyle, saldırgan sadece birkaç milisaniyede sistemi tamamen çözebilir .
+ 
