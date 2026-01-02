@@ -1,0 +1,17 @@
+Üretilen ilk 5 sayı:
+1. Sayı: 936313147
+2. Sayı: 719934255
+3. Sayı: 286973513
+4. Sayı: 279494432
+5. Sayı: 4007341126
+--- Istatistiksel Test Sonuclari (bsg.py) ---
+
+1. Ki-Kare (Chi-Square) Testi:
+   H0: Sayilar 0-1 arasinda esit dagilmistir. (Normalizasyon sonrasi)
+   Ki-Kare Degeri: 12.4200
+   SONUC: BASARILI (H0 reddedilemez, dagilim uniform)
+
+2. Kosu (Runs) Testi (0-1 Esitligi ve Bagimsizlik):
+   Kosularin Sayisi: 504
+   Z-Skoru: 0.3536
+   SONUC: BASARILI (Rastgelelik dogrulandi)

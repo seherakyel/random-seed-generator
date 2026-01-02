@@ -1,0 +1,14 @@
+graph TD
+    A([Başla]) --> B[Zamanı Al: time_ns]
+    B --> C[Seed = time_ns AND 0xFFFFFFFF]
+    C --> D{Seed == 0?}
+    D -- Evet --> E[State = 0x92D68CA2]
+    D -- Hayır --> F[State = Seed]
+    E --> F
+    F --> G[Fonksiyon: next()]
+    G --> H[x = State]
+    H --> I[x = x XOR ((x Sola 13) AND 0xFFFFFFFF)]
+    I --> J[x = x XOR (x Sağa 17)]
+    J --> K[x = x XOR ((x Sola 5) AND 0xFFFFFFFF)]
+    K --> L[State = x]
+    L --> M([Döndür: x])
